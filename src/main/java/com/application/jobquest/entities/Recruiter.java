@@ -27,6 +27,7 @@ public class Recruiter {
 
     @Column(name = "password", nullable = false, length = Integer.MAX_VALUE)
     private String password;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;

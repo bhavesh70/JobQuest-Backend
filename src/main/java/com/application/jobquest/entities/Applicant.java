@@ -27,6 +27,7 @@ public class Applicant {
 
     @Column(name = "password", nullable = false, length = Integer.MAX_VALUE)
     private String password;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resume_id")
     private Resume resume;

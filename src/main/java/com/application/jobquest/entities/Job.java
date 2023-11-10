@@ -42,6 +42,7 @@ public class Job {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "recruiter_id", nullable = false)
     private Recruiter recruiter;
+
     @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
