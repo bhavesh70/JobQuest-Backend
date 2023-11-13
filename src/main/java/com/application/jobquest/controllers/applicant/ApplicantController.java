@@ -33,11 +33,11 @@ public class ApplicantController {
     }
 
     @PostMapping("/login")
-    public ResponseBody login(@RequestBody ApplicantLoginRequest applicantLoginRequest)  {
+    public ResponseBody login()  {
         return new ResponseBody(
                 new ApplicantDetailsWithJwtResponse(
-                        objectConverter.convertObject(applicantService.getApplicantByUsername(applicantLoginRequest.getEmail()), ApplicantDto.class),
-                        applicantService.getJWTtokens(new ApplicantLoginRequest(applicantLoginRequest.getEmail(), applicantLoginRequest.getPassword()))
+                        objectConverter.convertObject(applicantService.getApplicantByUsername("bhaveshpurswani70@gmail.com"), ApplicantDto.class),
+                        applicantService.getJWTtokens(new ApplicantLoginRequest("bhaveshpurswani70@gmail.com", "$@!Job77"))
                 )
         );
     }
