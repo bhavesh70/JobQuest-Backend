@@ -1,9 +1,14 @@
 package com.application.jobquest.entities;
 
+import com.application.jobquest.constant.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -11,8 +16,9 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "applicants")
-public class Applicant {
+public class Applicant implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -47,4 +53,36 @@ public class Applicant {
     @Column(name = "phone_number", columnDefinition = "phone_number(0, 0) not null")
     private String phoneNumber;
 
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection < SimpleGrantedAuthority > authorities = new LinkedHashSet<>();
+        authorities.add(new SimpleGrantedAuthority(Role.Applicant.name()));
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

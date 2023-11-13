@@ -13,6 +13,7 @@ import java.util.Set;
 @Table(name = "degrees")
 public class Degree {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
