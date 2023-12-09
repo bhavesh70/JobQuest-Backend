@@ -3,9 +3,8 @@ package com.application.jobquest.controllers.applicant;
 import com.application.jobquest.dto.*;
 import com.application.jobquest.dto.ResponseBody;
 import com.application.jobquest.services.ApplicantService;
+import com.application.jobquest.services.JobService;
 import com.application.jobquest.utils.ObjectConverter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,15 +18,20 @@ public class ApplicantController {
 
     private final ObjectConverter objectConverter;
 
-    public ApplicantController(ApplicantService applicantService, ObjectConverter objectConverter) {
+    private final JobService jobServices;
+
+    public ApplicantController(ApplicantService applicantService, JobService jobService, ObjectConverter objectConverter) {
+        this.jobServices = jobService;
         this.applicantService = applicantService;
         this.objectConverter = objectConverter;
     }
 
     @PostMapping("/register")
     public ResponseBody registerApplicant(@RequestBody ApplicantRegistrationRequest applicantRegistrationRequest) {
-        return new ResponseBody(new ApplicantDetailsWithJwtResponse(objectConverter.convertObject(applicantService.addApplicant(applicantRegistrationRequest), ApplicantDto.class),
-                applicantService.getJWTtokens(new ApplicantLoginRequest(applicantRegistrationRequest.getEmail(), applicantRegistrationRequest.getPassword()))
+        return new ResponseBody(
+                new ApplicantDetailsWithJwtResponse(
+                        objectConverter.convertObject(applicantService.addApplicant(applicantRegistrationRequest), ApplicantDto.class),
+                        applicantService.getJWTtokens(new ApplicantLoginRequest(applicantRegistrationRequest.getEmail(), applicantRegistrationRequest.getPassword()))
         )
         );
     }
@@ -40,5 +44,10 @@ public class ApplicantController {
                         applicantService.getJWTtokens(new ApplicantLoginRequest(applicantLoginRequest.getEmail(), applicantLoginRequest.getPassword()))
                 )
         );
+    }
+
+    @GetMapping("/jobs")
+    public ResponseBody getJobs() {
+        return new ResponseBody(jobServices.getJobs());
     }
 }

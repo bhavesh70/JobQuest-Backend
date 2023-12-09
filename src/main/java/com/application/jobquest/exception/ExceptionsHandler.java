@@ -29,4 +29,16 @@ public class ExceptionsHandler {
         logger.error(exception.getMessage());
         return new ResponseEntity<>(new ResponseBody(ApplicationError.USER_DOES_NOT_EXIST), HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(EmailAlreadyExistException.class)
+    public ResponseEntity<ResponseBody> handleEmailAlreadyExistException(EmailAlreadyExistException exception){
+        logger.error(exception.getMessage());
+        return new ResponseEntity<>(new ResponseBody(ApplicationError.EMAIL_ALREADY_EXIST), HttpStatus.ALREADY_REPORTED);
+    }
+
+    @ExceptionHandler(InvalidEmailOrPasswordException.class)
+    public ResponseEntity<ResponseBody> handleInvalidEmailOrPassordException(InvalidEmailOrPasswordException exception){
+        logger.error(exception.getMessage());
+        return new ResponseEntity<>(new ResponseBody(ApplicationError.INVALID_EMAIL_OR_PASSWORD), HttpStatus.FORBIDDEN);
+    }
 }

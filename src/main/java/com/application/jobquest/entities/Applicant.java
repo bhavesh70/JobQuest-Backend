@@ -22,6 +22,7 @@ public class Applicant implements UserDetails {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+
     @Column(name = "first_name", nullable = false, length = Integer.MAX_VALUE)
     private String firstName;
 
@@ -85,4 +86,6 @@ public class Applicant implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

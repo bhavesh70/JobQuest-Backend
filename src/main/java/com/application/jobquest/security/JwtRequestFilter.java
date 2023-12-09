@@ -26,11 +26,15 @@ import java.io.IOException;
 import static com.application.jobquest.utils.HttpResponseUtil.setErrorResponse;
 
 @Component
-public class JwtRequestFilter extends OncePerRequestFilter {
+    public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
     @Qualifier("applicantService")
     private UserDetailsService applicantService;
+
+    @Autowired
+    @Qualifier("recruiterService")
+    private UserDetailsService recruiterService;
 
 
     @Autowired
@@ -100,18 +104,20 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private UserDetailsService getUserDetailsServiceBasedOnJwtToken(final String jwtToken){
-
+        if(Role.Recruiter.name().equals(jwtTokenUtil.getRoleFromToken(jwtToken))){
+            return recruiterService;
+        }
         return applicantService;
     }
 
-    private boolean isRequestBelongsToRecruiter(HttpServletRequest request){
+        private boolean isRequestBelongsToRecruiter(HttpServletRequest request){
         if(request.getServletPath().startsWith("/recruiter")){
             return true;
         }
         return false;
     }
 
-    private boolean isRequestBelongsToApplicant(HttpServletRequest request){
+        private boolean isRequestBelongsToApplicant(HttpServletRequest request){
         if(request.getServletPath().startsWith("/applicant")){
             return true;
         }

@@ -20,6 +20,10 @@ public class AppSecurityConfig{
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/applicant/register").permitAll()
                         .requestMatchers("/applicant/login").permitAll()
+                        .requestMatchers("/recruiter/register").permitAll()
+                        .requestMatchers("/recruiter/login").permitAll()
+                        .requestMatchers("/applicant/**").hasAuthority("Role.Applicant.name()")
+                        .requestMatchers("/recruiter/**").hasAuthority("Role.Recruiter.name()")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session-> session
